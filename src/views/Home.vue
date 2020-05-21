@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col s6 offset-s3">
         <!-- Form -->
-        <PostForm @postCreated="addPost" />
+        <PostForm @postCreated="addPost" :editingPost="editingPost" />
       </div>
     </div>
     <div class="row">
@@ -11,7 +11,7 @@
         <div class="card">
           <div class="card-content">
             <p class="card-title">{{ post.title }}</p>
-            <p class="timestamp">{{ post.createdAt }}</p>
+            <p class="timestamp">{{ post.createdAt | formatDate }}</p>
             <p>{{ post.body }}</p>
           </div>
           <div class="card-action">
@@ -36,15 +36,22 @@ export default {
     PostForm,
   },
   data() {
-    return { posts: [] };
+    return { posts: [], editingPost: null };
   },
   methods: {
     addPost(post) {
-      console.log(post);
-      this.posts.unshift(post);
+      console.log('addPost?', post);
+      if (this.posts.find((p) => p.id === post.id)) {
+        const index = this.posts.findIndex((p) => p.id === post.id);
+        this.post.splice(index, 1, post);
+        console.log('editPost', post);
+      } else {
+        console.log('addPost', post);
+        this.posts.unshift(post);
+      }
     },
     editPost(post) {
-      console.log('edited', post);
+      this.editingPost = post;
     },
     deletePost(id) {
       postService
@@ -72,6 +79,16 @@ export default {
         }
       })
       .catch((err) => err);
+  },
+  filters: {
+    formatDate(date) {
+      date = new Date(date);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    },
   },
 };
 </script>

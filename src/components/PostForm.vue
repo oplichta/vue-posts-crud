@@ -1,12 +1,12 @@
 <template>
   <form v-if="!loading" class="form" @submit.prevent="onSubmit">
     <div class="input-field">
-      <label for="title">Title</label>
+      <label for="title" :class="[id ? 'active' : '']">Title</label>
       <input type="text" name="title" v-model="title" :class="[errors.title ? 'invalid' : 'validate']" />
       <span class="helper-text" data-error="Title must not by empty"></span>
     </div>
     <div class="input-field">
-      <label for="body">Body</label>
+      <label for="body" :class="[id ? 'active' : '']">Body</label>
       <input type="text" name="body" v-model="body" :class="[errors.title ? 'invalid' : 'validate']" />
       <span class="helper-text" data-error="Body must not by empty"></span>
     </div>
@@ -24,12 +24,16 @@ const postService = new PostService();
 
 export default {
   name: 'PostForm',
+  props: {
+    editingPost: Object,
+  },
   data() {
     return {
       loading: false,
       title: '',
       body: '',
       errors: {},
+      id: null,
     };
   },
   methods: {
@@ -42,11 +46,13 @@ export default {
       const post = {
         title: this.title,
         body: this.body,
+        id: this.id,
       };
 
       postService
         .writePost(post)
         .then((res) => {
+          console.log('writePost', post);
           this.loading = false;
           const newPost = {
             id: res.data.name.toString(),
@@ -57,7 +63,9 @@ export default {
           };
           this.body = '';
           this.title = '';
+          // why this is not executed? :)
           this.$emit('postCreated', newPost);
+          console.log('writePost2', post);
         })
         .catch((err) => err);
     },
@@ -75,12 +83,12 @@ export default {
         return true;
       }
     },
-    watch: {
-      editingPost(post) {
-        this.title = post.title;
-        this.body = post.body;
-        this.id = post.id;
-      },
+  },
+  watch: {
+    editingPost(post) {
+      this.title = post.title;
+      this.body = post.body;
+      this.id = post.id;
     },
   },
 };

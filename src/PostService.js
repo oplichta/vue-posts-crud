@@ -13,11 +13,11 @@ export default class PostService {
 
   writePost(post) {
     if (post.id) {
-      return axios.put(`/posts.json/${post.id}`, post);
+      return axios.put(`/posts/${post.id}.json`, post);
     } else return axios.post('/posts.json', post);
   }
 
   deletePost(id) {
-    return axios.delete('/posts/' + id + '.json');
+    return axios.delete(`/posts/${id}.json`);
   }
 }
