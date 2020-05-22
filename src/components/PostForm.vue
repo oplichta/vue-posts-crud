@@ -52,10 +52,9 @@ export default {
       postService
         .writePost(post)
         .then((res) => {
-          console.log('writePost', post);
           this.loading = false;
           const newPost = {
-            id: res.data.name.toString(),
+            id: 'name' in res.data ? res.data.name : res.data.id,
             title: this.title,
             body: this.body,
             createdAt: new Date(),
@@ -63,9 +62,8 @@ export default {
           };
           this.body = '';
           this.title = '';
-          // why this is not executed? :)
+          this.id = '';
           this.$emit('postCreated', newPost);
-          console.log('writePost2', post);
         })
         .catch((err) => err);
     },

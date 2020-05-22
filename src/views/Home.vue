@@ -43,7 +43,7 @@ export default {
       console.log('addPost?', post);
       if (this.posts.find((p) => p.id === post.id)) {
         const index = this.posts.findIndex((p) => p.id === post.id);
-        this.post.splice(index, 1, post);
+        this.posts.splice(index, 1, post);
         console.log('editPost', post);
       } else {
         console.log('addPost', post);
