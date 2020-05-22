@@ -99,4 +99,13 @@ export default {
 .progress {
   margin: 100px 0;
 }
+
+@media (max-width: 480px) {
+  .form {
+    width: 100%;
+    margin: 0;
+    margin-left: 0px;
+    margin-top: 15px;
+  }
+}
 </style>

@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="row">
-      <div class="col s6 offset-s3">
+      <div class="col s12 l6 offset-l3">
         <!-- Form -->
         <PostForm @postCreated="addPost" :editingPost="editingPost" />
       </div>
     </div>
     <div class="row">
-      <div class="col s4" v-for="(post, index) in posts" :item="post" :index="index" :key="post.id">
+      <div class="col s12 l4" v-for="(post, index) in posts" :item="post" :index="index" :key="post.id">
         <div class="card">
           <div class="card-content">
             <p class="card-title">{{ post.title }}</p>
